@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">periferia</string>
+
+    // Strings MainActibity------------------------------
+    <string name="img_Logotipo">Periféricos</string>
+    <string name="btn_init">home</string>
+
+    // Strings Library-------------------------
+    <string name="txtTitle_Home">HOME</string>
+
+    <string name="imgProduct1">home</string>
+    <string name="imgProduct2">home</string>
+    <string name="imgProduct3">home</string>
+
+    <string name="txtProduct1">Monitor Samsung 27 inch</string>
+    <string name="txtProduct2">Mouse Logitech G502 Lightspeed</string>
+    <string name="txtProduct3">Razer Keyboard RGB</string>
+
+    <string name="btnProduct1">Info</string>
+    <string name="btnProduct2">Info</string>
+    <string name="btnProduct3">Info</string>
+
+    // Strings Products
+
+    <string name="btnProducts_back">VOLVER</string>
+    <string name="txtProducts_Mayor"></string>
+
+
+</resources>
