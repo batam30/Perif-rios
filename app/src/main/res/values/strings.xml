@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">periferia</string>
+    <string name="app_name">Periféricos</string>
 
     // Strings MainActibity------------------------------
     <string name="img_Logotipo">Periféricos</string>
@@ -24,6 +24,32 @@
 
     <string name="btnProducts_back">VOLVER</string>
     <string name="txtProducts_Mayor"></string>
+
+    //Strings ProdForm
+    <string name="ProdFormFormulario">Formulario</string>
+
+    <string name="btnFmGet">Get</string>
+    <string name="btnFmDelete">Delete</string>
+    <string name="btnForm">New Product</string>
+    <string name="btnFmUpdate">Update</string>
+
+    <string name="txtFormName">Nombre</string>
+    <string name="txtFormDescription">Descripción</string>
+    <string name="txtFormPrice2">Precio</string>
+
+    //Strings Login
+    <string name="textEmail">Email</string>
+    <string name="textPass">Contraseña</string>
+    <string name="btnLogin">Ingresar</string>btnRegister
+    <string name="btnRegister">Registro</string>
+
+    //Strings Register
+    <string name="textEmailReg">Email</string>
+    <string name="textPassReg">Contraseña</string>
+    <string name="ConfirmReg">Confirmar</string>
+    <string name="btnRegisterReg">Registrar</string>
+
+
 
 
 </resources>

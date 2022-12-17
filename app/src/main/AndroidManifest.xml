@@ -15,6 +15,20 @@
         android:theme="@style/Theme.Periferia"
         tools:targetApi="31">
         <activity
+            android:name=".Register"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Login"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ProdForm"
             android:exported="false">
             <meta-data
@@ -26,10 +40,10 @@
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+                android:value="" /></activity>
         <activity
             android:name=".Library"
+            android:theme="@style/Theme.Barra"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import java.text.DecimalFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 public class ProductAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Producto> arrayProducts;
+    //private static final DecimalFormat df = new DecimalFormat("0.00");
 
 
     public ProductAdapter(Context context, ArrayList<Producto> arrayProducts) {
@@ -60,22 +62,28 @@ public class ProductAdapter extends BaseAdapter {
         TextView textPriceTemplate = (TextView) view.findViewById(R.id.textPriceTemplate);
 
         Producto producto = arrayProducts.get(i);
-        byte[] image = producto.getImage();
+        /*byte[] image = producto.getImage();
         Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+        imageTemplate.setImageBitmap(bitmap);*/
 
-        imageTemplate.setImageBitmap(bitmap);
         textNameTemplate.setText(producto.getName());
         textDescriptionTemplate.setText(producto.getDescription());
-        int Col = producto.getPrice() * 4800;
-        int Usd = producto.getPrice();
-        String prices = "Pesos: " +Col+ "   USD: "+Usd;
+        int Col = producto.getPrice();
+        double UsdCal = producto.getPrice() * 0.00021 ;
+        int Usd = (int) Math.round(UsdCal);
+        //String prices = "Pesos: " +Col+ "   USD: "+ df.format(Usd);
+        String prices = "Pesos: " +Col+ "   USD: "+ Usd;
         textPriceTemplate.setText(prices);
 
         imageTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context.getApplicationContext(), Products.class);
-                intent.putExtra( "id", String.valueOf(producto.getId()));
+                intent.putExtra("id", String.valueOf(producto.getId()));
+                intent.putExtra("name", String.valueOf(producto.getName()));
+                intent.putExtra("description", String.valueOf(producto.getDescription()));
+                intent.putExtra("price", String.valueOf(producto.getPrice()));
+                intent.putExtra("image", String.valueOf(producto.getImage()));
                 context.startActivity(intent);
             }
         });

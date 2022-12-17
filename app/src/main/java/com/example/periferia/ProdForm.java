@@ -1,12 +1,8 @@
 package com.example.periferia;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,16 +14,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.periferia.DB.DBBFireBase;
 import com.example.periferia.DB.DBHelper;
 import com.example.periferia.Entities.Producto;
 import com.example.periferia.Services.ProductService;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 public class ProdForm extends AppCompatActivity {
     private ProductService productService;
     private DBHelper dbHelper;
+    private DBBFireBase dbbFireBase;
     private Button btnForm, btnFmGet, btnFmDelete, btnFmUpdate;
     private TextView txtFormName, txtFormDescription, txtFormPrice;
     private EditText editFormName, editFormDescription, editFormPrice, editFormId;
@@ -69,6 +73,7 @@ public class ProdForm extends AppCompatActivity {
         try {
             productService = new ProductService();
             dbHelper = new DBHelper(this);
+            dbbFireBase = new DBBFireBase();
         } catch (Exception e) {
             Log.e("DB", e.toString());
 
@@ -77,8 +82,15 @@ public class ProdForm extends AppCompatActivity {
                 new ActivityResultContracts.GetContent(),
                 new ActivityResultCallback<Uri>() {
                     @Override
-                    public void onActivityResult(Uri result) {
-                        imgForm.setImageURI(result);
+                    public void onActivityResult(Uri result)
+                    {
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(result);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            imgForm.setImageBitmap(bitmap);
+                        }catch (FileNotFoundException e){
+                            e.printStackTrace();
+                        }
                     }
                 }
         );
@@ -94,28 +106,36 @@ public class ProdForm extends AppCompatActivity {
         btnForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imgForm.getDrawable();
-                dbHelper.insertData(
-                        editFormName.getText().toString(),
-                        editFormDescription.getText().toString(),
-                        editFormPrice.getText().toString(),
-                        productService.imageViewToByte(imgForm)
+                try {
+                    Producto producto = new Producto(
+                            editFormName.getText().toString(),
+                            editFormDescription.getText().toString(),
+                            Integer.parseInt(editFormPrice.getText().toString()),
+                           ""
+                           //productService.imageViewToByte(imgForm)
+                    );
+                    //dbHelper.insertData(producto);
+                    dbbFireBase.insertData(producto);
+                }catch (Exception e){
+                    Log.e("DB Insert", e.toString());
+                }
 
-                );
                 Intent intent = new Intent(getApplicationContext(), Library.class);
                 startActivity(intent);
             }
         });
+        /*
         btnFmGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = editFormId.getText().toString().trim();
                 if (id.compareTo("") != 0) {
                     ArrayList<Producto> list = productService.cursorToArray(dbHelper.getDataById(id));
+                    list.add(dbbFireBase.getDataById(id));
                     if (list.size() != 0) {
                         Producto producto = list.get(0);
 
-                        imgForm.setImageBitmap(productService.byteToBitmap(producto.getImage()));
+                        //imgForm.setImageBitmap(productService.byteToBitmap(producto.getImage()));
                         editFormName.setText(producto.getName());
                         editFormDescription.setText(producto.getDescription());
                         editFormPrice.setText(String.valueOf(producto.getPrice()));
@@ -127,7 +147,7 @@ public class ProdForm extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Ingrese id", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
 
         btnFmDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +177,8 @@ public class ProdForm extends AppCompatActivity {
                             productService.imageViewToByte(imgForm)
                     );
                     clean();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Ingrese producto a Actualizar", Toast.LENGTH_SHORT).show();
                 }
 
             }
