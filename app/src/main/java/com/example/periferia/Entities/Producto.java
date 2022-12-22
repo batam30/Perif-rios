@@ -17,7 +17,6 @@ public class Producto {
     private Double longitud;
 
     public Producto(String id, String name, String description, int price, String image, Double latitud, Double longitud) {
-
         this.latitud = latitud;
         this.longitud = longitud;
         this.id = id;
@@ -31,7 +30,6 @@ public class Producto {
     }
 
     public Producto(String name, String description, int price, String image, Double latitud, Double longitud) {
-
         this.latitud = latitud;
         this.longitud = longitud;
         this.id = UUID.randomUUID().toString();
@@ -45,7 +43,6 @@ public class Producto {
     }
 
     public Producto(String id, String name, String description, int price, String image, Boolean deleted, Date createdAt, Date updatedAt, Double latitud, Double longitud) {
-
         this.latitud = latitud;
         this.longitud = longitud;
         this.id = id;
@@ -65,12 +62,15 @@ public class Producto {
     public Double getLatitud() {
         return latitud;
     }
+
     public void setLatitud(Double latitud) {
         this.latitud = latitud;
     }
+
     public Double getLongitud() {
         return longitud;
     }
+
     public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
@@ -87,20 +87,20 @@ public class Producto {
         this.deleted = deleted;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getId(){return id;}

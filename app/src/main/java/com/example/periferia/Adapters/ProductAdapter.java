@@ -74,7 +74,7 @@ public class ProductAdapter extends BaseAdapter {
         int Col = producto.getPrice();
         double UsdCal = producto.getPrice() * 0.00021 ;
         int Usd = (int) Math.round(UsdCal);
-        //String prices = "Pesos: " +Col+ "   USD: "+ df.format(Usd);
+        //String price = "Pesos: " +Col+ "   USD: "+ df.format(Usd);
         String prices = "Pesos: " +Col+ "   USD: "+ Usd;
         textPriceTemplate.setText(prices);
 

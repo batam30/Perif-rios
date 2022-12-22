@@ -97,6 +97,19 @@ public class DBBFireBase {
     }
 
 
+    public void deleteData(String id){
+        db.collection("products").whereEqualTo("id",id)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                documentSnapshot.getReference().delete();
+                            }
+                        }
+                    }
+                });
+    }
     public void updateData(Producto producto){
         db.collection("products").whereEqualTo("id", producto.getId())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -117,18 +130,4 @@ public class DBBFireBase {
                     }
                 });
     }
-    public void deleteData(String id){
-        db.collection("products").whereEqualTo("id",id)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                                documentSnapshot.getReference().delete();
-                            }
-                        }
-                    }
-                });
-    }
-
 }

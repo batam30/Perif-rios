@@ -42,7 +42,7 @@ public class ProdForm extends AppCompatActivity {
     private DBHelper dbHelper;
     private DBBFireBase dbbFireBase;
     private Button btnForm;
-    private TextView txtFormName, txtFormDescription, txtFormPrice;
+    private TextView prodFormWarning;
     private EditText editFormName, editFormDescription, editFormPrice;
     private ImageView imgForm;
     private TextView textLatitudForm, textLongitudForm;
@@ -59,7 +59,6 @@ public class ProdForm extends AppCompatActivity {
         setContentView(R.layout.activity_prod_form);
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
 
-
         btnForm = (Button) findViewById(R.id.btnForm);
         editFormName = (EditText) findViewById(R.id.editFormName);
         editFormDescription = (EditText) findViewById(R.id.editFormDescription);
@@ -68,6 +67,7 @@ public class ProdForm extends AppCompatActivity {
         imgForm = (ImageView) findViewById(R.id.imgForm);
         textLatitudForm = (TextView) findViewById(R.id.textLatitudForm);
         textLongitudForm = (TextView) findViewById(R.id.textLongitudForm);
+        prodFormWarning = (TextView) findViewById(R.id.prodFormWarning);
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -77,7 +77,7 @@ public class ProdForm extends AppCompatActivity {
 
         map = (MapView) findViewById(R.id.mapForm);
         map.setTileSource(TileSourceFactory.MAPNIK);
-        productService = new ProductService();
+        //productService = new ProductService();
 
         map.setBuiltInZoomControls(true);
         mapController = (MapController) map.getController();
@@ -86,14 +86,14 @@ public class ProdForm extends AppCompatActivity {
         mapController.setZoom(12);
         map.setMultiTouchControls(true);
 
-
+        productService = new ProductService();
         if (edit) {
             btnForm.setText("Actualizar");
-
+            prodFormWarning.setText("¡¡¡¡Por favor antes de actualizar, ingrese una imagen nueva, para que el programa funcione de manera correcta!!!!");
             editFormName.setText(intentIN.getStringExtra("name"));
             editFormDescription.setText(intentIN.getStringExtra("description"));
             editFormPrice.setText(String.valueOf(intentIN.getIntExtra("price", 0)));
-            productService.insertUriToImageView(intentIN.getStringExtra("image"), imgForm, this);
+            productService.insertUriToImageView(intentIN.getStringExtra("image"), imgForm, ProdForm.this);
             textLatitudForm.setText(String.valueOf(intentIN.getDoubleExtra("latitud", 0.0)));
             textLongitudForm.setText(String.valueOf(intentIN.getDoubleExtra("longitud", 0.0)));
             GeoPoint geoPoint = new GeoPoint(intentIN.getDoubleExtra("latitud", 0.0), intentIN.getDoubleExtra("longitud", 0.0));
@@ -131,6 +131,7 @@ public class ProdForm extends AppCompatActivity {
             Log.e("DB", e.toString());
 
         }
+
         content = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 new ActivityResultCallback<Uri>() {
