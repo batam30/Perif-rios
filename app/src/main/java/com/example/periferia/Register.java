@@ -60,7 +60,7 @@ public class Register extends AppCompatActivity {
                                 }
                             });
                 }else{
-                    Toast.makeText(getApplicationContext(),"La contraseña no coincide",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Las contraseñas no coincide",Toast.LENGTH_SHORT).show();
                 }
 
             }

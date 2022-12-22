@@ -44,7 +44,7 @@ public class Library extends AppCompatActivity {
             productService = new ProductService();
             Cursor cursor = dbHelper.getData();
             productoArrayList = productService.cursorToArray(cursor);
-            /*if(arrayProducts.size() == 0){
+            /*if(productoArrayList.size() == 0){
                 dbFirebase.syncData(dbHelper);
             }*/
             Toast.makeText(this, "Insert OK", Toast.LENGTH_SHORT).show();
@@ -72,9 +72,23 @@ public class Library extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
+        Intent intent;
+        switch (item.getItemId()){
             case R.id.itemAdd:
-                Intent intent = new Intent(getApplicationContext(), ProdForm.class);
+                intent = new Intent(getApplicationContext(), ProdForm.class);
+                startActivity(intent);
+                return true;
+            case R.id.actioMap:
+                intent = new Intent(getApplicationContext(), Maps.class);
+                ArrayList<String> latitudes = new ArrayList<>();
+                ArrayList<String> longitudes = new ArrayList<>();
+
+                for(int i=0; i<productoArrayList.size(); i++){
+                    latitudes.add(String.valueOf(productoArrayList.get(i).getLatitud()));
+                    longitudes.add(String.valueOf(productoArrayList.get(i).getLongitud()));
+                }
+                intent.putStringArrayListExtra("latitudes", latitudes);
+                intent.putStringArrayListExtra("longitudes", longitudes);
                 startActivity(intent);
                 return true;
             default:

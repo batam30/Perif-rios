@@ -42,6 +42,8 @@ public class DBBFireBase {
         producto.put("deleted", prod.isDeleted());
         producto.put("createdAt", prod.getCreatedAt());
         producto.put("updatedAt", prod.getUpdatedAt());
+        producto.put("latitud", prod.getLatitud());
+        producto.put("longitud", prod.getLongitud());
 
 // Add a new document with a generated ID
         db.collection("products")
@@ -79,7 +81,9 @@ public class DBBFireBase {
                                             document.getData().get("image").toString(),
                                             Boolean.valueOf(document.getData().get("deleted").toString()),
                                             productService.stringToDate(document.getData().get("createdAt").toString()),
-                                            productService.stringToDate(document.getData().get("updatedAt").toString())
+                                            productService.stringToDate(document.getData().get("updatedAt").toString()),
+                                            Double.parseDouble(document.getData().get("latitud").toString()),
+                                            Double.parseDouble(document.getData().get("longitud").toString())
                                     );
                                     list.add(producto);
                                 }
@@ -91,7 +95,7 @@ public class DBBFireBase {
                     }
                 });
     }
-    
+    /*
     public void syncData(DBHelper dbHelper){
         db.collection("products")
                 .get()
@@ -123,32 +127,38 @@ public class DBBFireBase {
                 });
     }
 
-    public void updateDataById(String id, String name, String description, String price, byte[] image){
-        db.collection("products")
-            .document(id)
-            .update(
-                    "name", name,
-                    "description",description,
-                    "price", price)
-            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                }
-            });
-    }
-    public void deleteDataById(String id){
-        db.collection("products")
-                .document(id)
-                .delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+     */
 
+    public void updateData(Producto producto){
+        db.collection("products").whereEqualTo("id", producto.getId())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                documentSnapshot.getReference().update(
+                                        "name", producto.getName(),
+                                        "description", producto.getDescription(),
+                                        "price", producto.getPrice(),
+                                        "image", producto.getImage(),
+                                        "latitud", producto.getLatitud(),
+                                        "longitud", producto.getLongitud()
+                                );
+                            }
+                        }
+                    }
+                });
+    }
+    public void deleteData(String id){
+        db.collection("products").whereEqualTo("id",id)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                documentSnapshot.getReference().delete();
+                            }
+                        }
                     }
                 });
     }

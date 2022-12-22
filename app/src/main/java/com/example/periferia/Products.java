@@ -33,19 +33,15 @@ public class Products extends AppCompatActivity {
 
         Intent intentIn = getIntent();
         Producto producto = new Producto(
-                intentIn.getStringExtra("id"),
-                intentIn.getStringExtra("name"),
-                intentIn.getStringExtra("description"),
-                Integer.parseInt(intentIn.getStringExtra("price")),
-                intentIn.getStringExtra("image")
+                Integer.parseInt(intentIn.getStringExtra("price"))
         );
-        //ArrayList<Producto> List = productService.cursorToArray(dbHelper.getDataById(id));
-        //Producto producto = List.get(0);
 
-        txtProducts_Name.setText(producto.getName());
-        txtProducts_Descrip.setText(producto.getDescription());
+
+        txtProducts_Name.setText(intentIn.getStringExtra("name"));
+        txtProducts_Descrip.setText(intentIn.getStringExtra("description"));
         txtProducts_Price.setText(String.valueOf(producto.getPrice()));
-        //imgProducts.setImageBitmap(productService.byteToBitmap(producto.getImage()));
+        //txtProducts_Price.setText(String.valueOf(intentIn.getIntExtra("price", 0)));
+        productService.insertUriToImageView(intentIn.getStringExtra("image"), imgProducts, Products.this);
 
         btnProducts_back.setOnClickListener(new View.OnClickListener() {
             @Override

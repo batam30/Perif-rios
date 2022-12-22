@@ -24,54 +24,13 @@
                 android:layout_height="wrap_content"
                 
                 android:text="@string/ProdFormFormulario"
-                android:textSize="60dp" />
+                android:textSize="50sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:id="@+id/editFormId"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1" />
-
-                <Button
-                    android:id="@+id/btnFmGet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btnFmGet" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1" />
-
-                <Button
-                    android:id="@+id/btnFmDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btnFmDelete" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/imgForm"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/addimage" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,11 +38,48 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imgForm"
-                    android:layout_width="270dp"
-                    android:layout_height="270dp"
-                    app:srcCompat="@drawable/addimage" />
+
+                <org.osmdroid.views.MapView
+                    android:id="@+id/mapForm"
+                    android:layout_width="350dp"
+                    android:layout_height="300dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1" />
+
+                    <TextView
+                        android:id="@+id/textLongitudForm"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/textLongitudForm"
+                        android:textAlignment="center" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1" />
+
+                    <TextView
+                        android:id="@+id/textLatitudForm"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/textLatitudForm"
+                        android:textAlignment="center" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -196,7 +192,7 @@
                     <Space
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="0.1" />
 
                     <Button
                         android:id="@+id/btnForm"
@@ -204,23 +200,12 @@
                         android:layout_height="wrap_content"
                         android:text="@string/btnForm"
                         android:textSize="12sp" />
-
                     <Space
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1" />
 
-                    <Button
-                        android:id="@+id/btnFmUpdate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
 
-                        android:text="@string/btnFmUpdate" />
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

@@ -13,8 +13,13 @@ public class Producto {
     private boolean deleted;
     private Date updatedAt;
     private Date createdAt;
+    private Double latitud;
+    private Double longitud;
 
-    public Producto(String id, String name, String description, int price, String image) {
+    public Producto(String id, String name, String description, int price, String image, Double latitud, Double longitud) {
+
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.id = id;
         this.name = name;
         this.description = description;
@@ -25,7 +30,10 @@ public class Producto {
         this.deleted = false;
     }
 
-    public Producto(String name, String description, int price, String image) {
+    public Producto(String name, String description, int price, String image, Double latitud, Double longitud) {
+
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
@@ -36,7 +44,10 @@ public class Producto {
         this.deleted = false;
     }
 
-    public Producto(String id, String name, String description, int price, String image, Boolean deleted, Date createdAt, Date updatedAt) {
+    public Producto(String id, String name, String description, int price, String image, Boolean deleted, Date createdAt, Date updatedAt, Double latitud, Double longitud) {
+
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.id = id;
         this.name = name;
         this.description = description;
@@ -45,6 +56,23 @@ public class Producto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deleted = deleted;
+    }
+
+    public Producto(int price){
+        this.price = price;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+    public Double getLongitud() {
+        return longitud;
+    }
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
     }
 
     public void setId(String id) {

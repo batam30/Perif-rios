@@ -27,10 +27,12 @@
 
     //Strings ProdForm
     <string name="ProdFormFormulario">Formulario</string>
+    <string name="textLatitudForm">latitud</string>
+    <string name="textLongitudForm">longitud</string>
 
     <string name="btnFmGet">Get</string>
     <string name="btnFmDelete">Delete</string>
-    <string name="btnForm">New Product</string>
+    <string name="btnForm">Insert</string>
     <string name="btnFmUpdate">Update</string>
 
     <string name="txtFormName">Nombre</string>
@@ -48,8 +50,12 @@
     <string name="textPassReg">Contraseña</string>
     <string name="ConfirmReg">Confirmar</string>
     <string name="btnRegisterReg">Registrar</string>
+    <string name="title_activity_maps">Maps</string>
 
+    //Strings Maps
+    <string name="txtMap">Mapa</string>
 
+    <string name="title_activity_maps_google">MapsGoogle</string>
 
 
 </resources>
