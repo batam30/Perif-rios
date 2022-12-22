@@ -95,39 +95,7 @@ public class DBBFireBase {
                     }
                 });
     }
-    /*
-    public void syncData(DBHelper dbHelper){
-        db.collection("products")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Producto producto = null;
-                                if(!Boolean.valueOf(document.getData().get("deleted").toString())){
-                                    producto = new Producto(
-                                            document.getData().get("id").toString(),
-                                            document.getData().get("name").toString(),
-                                            document.getData().get("description").toString(),
-                                            Integer.parseInt(document.getData().get("price").toString()),
-                                            document.getData().get("image").toString(),
-                                            Boolean.valueOf(document.getData().get("deleted").toString()),
-                                            productService.stringToDate(document.getData().get("createdAt").toString()),
-                                            productService.stringToDate(document.getData().get("updatedAt").toString())
-                                    );
-                                    dbHelper.insertData(producto);
-                                }
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-    }
 
-     */
 
     public void updateData(Producto producto){
         db.collection("products").whereEqualTo("id", producto.getId())
@@ -162,34 +130,5 @@ public class DBBFireBase {
                     }
                 });
     }
-    /*
-    public Producto getDataById(String id){
-        final Producto[] producto = {null};
-        db.collection("products")
-                //.whereEqualTo("id", id)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                if (document.getData().get("id").toString().compareTo(id) == 0){
-                                    producto[0] = new Producto(
-                                            document.getData().get("name").toString(),
-                                            document.getData().get("description").toString(),
-                                            Integer.parseInt(document.getData().get("price").toString()),
-                                            document.getData().get("image").toString(),
-                                            Boolean.valueOf(document.getData().get("deleted").toString())
-                                    );
 
-                                }
-                            }
-                        } else {
-                            Log.w(TAG, "Error obteniendo documentos .", task.getException());
-                        }
-                    }
-                });
-        return producto[0];
-    }*/
 }

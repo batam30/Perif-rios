@@ -51,10 +51,8 @@ public class ProductAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View convertView,
-                        ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup) {
 
-        View view = convertView;
         LayoutInflater layoutInflater = LayoutInflater.from(this.context);
         view = layoutInflater.inflate(R.layout.product_template, null);
 
@@ -95,6 +93,23 @@ public class ProductAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
+        btnTemplateEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context.getApplicationContext(), ProdForm.class);
+                intent.putExtra("edit", true);
+                intent.putExtra("id", producto.getId());
+                intent.putExtra("name", producto.getName());
+                intent.putExtra("description", producto.getDescription());
+                intent.putExtra("price", producto.getPrice());
+                intent.putExtra("image", producto.getImage());
+                intent.putExtra("latitud", producto.getLatitud());
+                intent.putExtra("longitud", producto.getLongitud());
+
+                context.startActivity(intent);
+            }
+        });
+
         btnTemplateDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,22 +136,7 @@ public class ProductAdapter extends BaseAdapter {
             }
 
         });
-        btnTemplateEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context.getApplicationContext(), ProdForm.class);
-                intent.putExtra("edit", true);
-                intent.putExtra("id", producto.getId());
-                intent.putExtra("name", producto.getName());
-                intent.putExtra("description", producto.getDescription());
-                intent.putExtra("price", producto.getPrice());
-                intent.putExtra("image", producto.getImage());
-                intent.putExtra("latitud", producto.getLatitud());
-                intent.putExtra("longitud", producto.getLongitud());
 
-                context.startActivity(intent);
-            }
-        });
         return view;
     }
 }

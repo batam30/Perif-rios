@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,7 +58,6 @@ public class ProdForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prod_form);
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-        productService = new ProductService();
 
 
         btnForm = (Button) findViewById(R.id.btnForm);
@@ -79,6 +77,7 @@ public class ProdForm extends AppCompatActivity {
 
         map = (MapView) findViewById(R.id.mapForm);
         map.setTileSource(TileSourceFactory.MAPNIK);
+        productService = new ProductService();
 
         map.setBuiltInZoomControls(true);
         mapController = (MapController) map.getController();
@@ -86,22 +85,9 @@ public class ProdForm extends AppCompatActivity {
         mapController.setCenter(colombia);
         mapController.setZoom(12);
         map.setMultiTouchControls(true);
-        MapEventsReceiver mapEventsReceiver = new MapEventsReceiver() {
-            @Override
-            public boolean singleTapConfirmedHelper(GeoPoint p) {
-                textLatitudForm.setText(String.valueOf(p.getLatitude()));
-                textLongitudForm.setText(String.valueOf(p.getLongitude()));
-                return false;
-            }
-            @Override
-            public boolean longPressHelper(GeoPoint p) {
-                return false;
-            }
-        };
-        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, mapEventsReceiver);
-        map.getOverlays().add(mapEventsOverlay);
 
-        if(edit){
+
+        if (edit) {
             btnForm.setText("Actualizar");
 
             editFormName.setText(intentIN.getStringExtra("name"));
@@ -110,26 +96,30 @@ public class ProdForm extends AppCompatActivity {
             productService.insertUriToImageView(intentIN.getStringExtra("image"), imgForm, this);
             textLatitudForm.setText(String.valueOf(intentIN.getDoubleExtra("latitud", 0.0)));
             textLongitudForm.setText(String.valueOf(intentIN.getDoubleExtra("longitud", 0.0)));
-            GeoPoint p = new GeoPoint(intentIN.getDoubleExtra("latitud", 0.0), intentIN.getDoubleExtra("longitud", 0.0));
+            GeoPoint geoPoint = new GeoPoint(intentIN.getDoubleExtra("latitud", 0.0), intentIN.getDoubleExtra("longitud", 0.0));
             Marker marker = new Marker(map);
-            marker.setPosition(p);
+            marker.setPosition(geoPoint);
             map.getOverlays().add(marker);
 
         }
 
-        editFormPrice.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // Si evento pasa
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Precionar Key
-                    Toast.makeText(getApplicationContext(), "Enter", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
 
+
+        MapEventsReceiver mapEventsReceiver = new MapEventsReceiver() {
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+                textLatitudForm.setText(String.valueOf(p.getLatitude()));
+                textLongitudForm.setText(String.valueOf(p.getLongitude()));
                 return false;
             }
-        });
+
+            @Override
+            public boolean longPressHelper(GeoPoint p) {
+                return false;
+            }
+        };
+        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, mapEventsReceiver);
+        map.getOverlays().add(mapEventsOverlay);
 
 
         byte[] img = "".getBytes(StandardCharsets.UTF_8);
@@ -146,23 +136,23 @@ public class ProdForm extends AppCompatActivity {
                 new ActivityResultCallback<Uri>() {
                     @Override
                     public void onActivityResult(Uri result) {
-                        Uri uri= result;
+                        Uri uri = result;
                         StorageReference filePath = storageReference.child("image").child(uri.getLastPathSegment());
                         filePath.putFile(uri)
-                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    Toast.makeText(getApplicationContext(), "Imagen Cargada", Toast.LENGTH_SHORT).show();
-                                    filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            Uri downloadUrl = uri;
-                                            urlImage = downloadUrl.toString();
-                                            productService.insertUriToImageView(urlImage, imgForm, ProdForm.this);
-                                        }
-                                    });
-                                }
-                            });
+                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        Toast.makeText(getApplicationContext(), "Imagen Cargada", Toast.LENGTH_SHORT).show();
+                                        filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                Uri downloadUrl = uri;
+                                                urlImage = downloadUrl.toString();
+                                                productService.insertUriToImageView(urlImage, imgForm, ProdForm.this);
+                                            }
+                                        });
+                                    }
+                                });
                     }
                 }
         );
@@ -185,19 +175,18 @@ public class ProdForm extends AppCompatActivity {
                             Integer.parseInt(editFormPrice.getText().toString()),
                             urlImage,
                             Double.parseDouble(textLatitudForm.getText().toString().trim()),
-                            //productService.imageViewToByte(imgFormProduct)
                             Double.parseDouble(textLongitudForm.getText().toString().trim())
                     );
 
-                    if (edit){
+                    if (edit) {
                         producto.setId(intentIN.getStringExtra("id"));
                         dbbFireBase.updateData(producto);
 
-                    }else{
+                    } else {
                         //dbHelper.insertData(producto);
                         dbbFireBase.insertData(producto);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.e("DB Insert", e.toString());
                 }
 
@@ -205,67 +194,8 @@ public class ProdForm extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*
-        btnFmGet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String id = editFormId.getText().toString().trim();
-                if (id.compareTo("") != 0) {
-                    ArrayList<Producto> list = productService.cursorToArray(dbHelper.getDataById(id));
-                    list.add(dbbFireBase.getDataById(id));
-                    if (list.size() != 0) {
-                        Producto producto = list.get(0);
-
-                        //imgForm.setImageBitmap(productService.byteToBitmap(producto.getImage()));
-                        editFormName.setText(producto.getName());
-                        editFormDescription.setText(producto.getDescription());
-                        editFormPrice.setText(String.valueOf(producto.getPrice()));
-                    } else {
-                        Toast.makeText(getApplicationContext(), "No existe", Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Ingrese id", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
-
-        /*btnFmDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String id = editFormId.getText().toString().trim();
-                if (id.compareTo("") != 0) {
-                    Log.d("DB", id);
-                    dbHelper.deleteDataById(id);
-                    clean();
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Ingrese id a eliminar", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-
-        });
-        btnFmUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String id = editFormId.getText().toString().trim();
-                if (id.compareTo("") != 0) {
-                    dbHelper.updateDataById(
-                            id,
-                            editFormName.getText().toString(),
-                            editFormDescription.getText().toString(),
-                            editFormPrice.getText().toString(),
-                            productService.imageViewToByte(imgForm)
-                    );
-                    clean();
-                }else {
-                    Toast.makeText(getApplicationContext(), "Ingrese producto a Actualizar", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });*/
     }
+
 
     public void clean(){
         editFormName.setText("");

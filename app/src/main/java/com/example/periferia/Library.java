@@ -1,6 +1,5 @@
 package com.example.periferia;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +28,6 @@ public class Library extends AppCompatActivity {
     private ProductAdapter productAdapter;
 
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +44,7 @@ public class Library extends AppCompatActivity {
             /*if(productoArrayList.size() == 0){
                 dbFirebase.syncData(dbHelper);
             }*/
-            Toast.makeText(this, "Insert OK", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Insert OK", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
             Log.e("Database", e.toString());
