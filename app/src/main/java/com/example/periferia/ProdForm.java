@@ -103,10 +103,11 @@ public class ProdForm extends AppCompatActivity {
 
         if(edit){
             btnForm.setText("Actualizar");
-            productService.insertUriToImageView(intentIN.getStringExtra("image"), imgForm, this);
+
             editFormName.setText(intentIN.getStringExtra("name"));
             editFormDescription.setText(intentIN.getStringExtra("description"));
             editFormPrice.setText(String.valueOf(intentIN.getIntExtra("price", 0)));
+            productService.insertUriToImageView(intentIN.getStringExtra("image"), imgForm, this);
             textLatitudForm.setText(String.valueOf(intentIN.getDoubleExtra("latitud", 0.0)));
             textLongitudForm.setText(String.valueOf(intentIN.getDoubleExtra("longitud", 0.0)));
             GeoPoint p = new GeoPoint(intentIN.getDoubleExtra("latitud", 0.0), intentIN.getDoubleExtra("longitud", 0.0));

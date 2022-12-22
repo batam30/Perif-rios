@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.periferia.Entities.Producto;
 import com.example.periferia.Services.ProductService;
 
 public class Products extends AppCompatActivity {
@@ -32,15 +31,17 @@ public class Products extends AppCompatActivity {
         productService = new ProductService();
 
         Intent intentIn = getIntent();
-        Producto producto = new Producto(
+        /*Producto producto = new Producto(
                 Integer.parseInt(intentIn.getStringExtra("price"))
         );
+
+         */
 
 
         txtProducts_Name.setText(intentIn.getStringExtra("name"));
         txtProducts_Descrip.setText(intentIn.getStringExtra("description"));
-        txtProducts_Price.setText(String.valueOf(producto.getPrice()));
-        //txtProducts_Price.setText(String.valueOf(intentIn.getIntExtra("price", 0)));
+        //txtProducts_Price.setText(String.valueOf(producto.getPrice()));
+        txtProducts_Price.setText(String.valueOf(intentIn.getIntExtra("price", 0)));
         productService.insertUriToImageView(intentIn.getStringExtra("image"), imgProducts, Products.this);
 
         btnProducts_back.setOnClickListener(new View.OnClickListener() {
